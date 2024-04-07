@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from .serializers import BrandSerializers, ProductSerializers, CategorySerializers
 from .models import Product, Category, Brand
 from django.shortcuts import get_object_or_404
-
+from drf_spectacular.utils import extend_schema
 
 class CategoryView(viewsets.ViewSet):
 
     queryset = Category.objects.all()
+    @extend_schema(responses=CategorySerializers)
     def list(self, request):
         serializer = CategorySerializers(self.queryset, many=True)
         return Response(serializer.data)
